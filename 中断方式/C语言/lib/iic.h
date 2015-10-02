@@ -33,6 +33,8 @@ extern "C" {
 //				#define I2C_IT_DMARX_SUBPRIO            0   /* I2C DMA RX SUB-PRIORITY */
 //				#define I2C_IT_DMARX_PREPRIO            1   /* I2C DMA RX PREEMPTION PRIORITY */
 
+//              #define DEBUG   //print debug info
+
 /***********************************************************************************************************************************************************/
 
 
@@ -217,17 +219,45 @@ void IIC_Start_CMD(void);
 void IIC_Start_Next_CMD(void);
  
  
+ 
+ 
 ///////////////////////////////////
 ///添加读取多个字节命令
 ///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_Next_CMD();语句会执行队列中下一个命令
 ///////////////////////////////////
 void I2C_AddCMD_Read_Bytes(u8 device_addr,u8 register_addr, u8* data_read, u8 num);//参数：设备地址，寄存器地址，读取的数据存放的地址，需要读取数据的个数
 
+
+
+
 ///////////////////////////////////
 ///添加写入多个字节命令
 ///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_CMD();语句会执行队列中下一个命令
 ///////////////////////////////////
 void I2C_AddCMD_Write_Bytes(u8 device_addr,u8 register_addr, u8* data_write, u8 num);//参数：设备地址，寄存器地址，读取的数据存放的地址，需要读取数据的个数
+
+
+
+
+
+	
+
+///////////////////////////////////
+///添加如指令命令 （无寄存器）
+///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_CMD();语句会执行队列中下一个命令
+///////////////////////////////////
+void I2C_AddCMD_Write_CMD_Bytes(u8 device_addr, u8* CMD_Write, u8 num);//参数：设备地址，命令，需要写入的命令的个数
+	
+
+
+
+
+
+///////////////////////////////////
+///添加如指令命令 （无寄存器）
+///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_CMD();语句会执行队列中下一个命令
+///////////////////////////////////
+void I2C_AddCMD_Write_CMD_Byte(u8 device_addr, u8 CMD_Write);//参数：设备地址，命令
 
 #ifdef __cplusplus
 }

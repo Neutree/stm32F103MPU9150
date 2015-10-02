@@ -1,7 +1,9 @@
 
 #include "iic.h"
 
-
+#ifdef DEBUG
+	#include "usart.h"
+#endif
 
 
 
@@ -93,7 +95,7 @@ void I2C_Init_Config()
 	//i2c使能 I2C_Cmd(I2C,ENABLE); 
 	I2C->CR1 |= I2C_CR1_PE;
 	
-	I2C_InitStructure.I2C_ClockSpeed          = 400000;                        /* Initialize the I2C_ClockSpeed member */
+	I2C_InitStructure.I2C_ClockSpeed          = 200000;                        /* Initialize the I2C_ClockSpeed member */
 	I2C_InitStructure.I2C_Mode                = I2C_Mode_I2C;                  /* Initialize the I2C_Mode member */
 	I2C_InitStructure.I2C_DutyCycle           = I2C_DutyCycle_2;               /* Initialize the I2C_DutyCycle member */
 	I2C_InitStructure.I2C_OwnAddress1         = 0;                             /* Initialize the I2C_OwnAddress1 member */
@@ -226,8 +228,9 @@ void I2C_AddCMD_Read_Bytes(u8 device_addr,u8 register_addr, u8* data_read, u8 nu
 	IIC_CMD_Temp.pDataIn=data_read;
 	IIC_CMD_Temp.DataOut[0]=register_addr;
 	IIC_CMD_Temp.slaveAddr=device_addr;
-	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队  命令：读取一个字节长的寄存器，寄存器地址为WHO_AM_I  //该读出的值默认为0x68
+	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队 
 }
+
 
 
 
@@ -255,7 +258,44 @@ void I2C_AddCMD_Write_Bytes(u8 device_addr,u8 register_addr, u8* data_write, u8 
 	for(i=1;i<=num;++i)
 		IIC_CMD_Temp.DataOut[i]=(*data_write)++;
 	IIC_CMD_Temp.slaveAddr=device_addr;
-	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队  命令：读取一个字节长的寄存器，寄存器地址为WHO_AM_I  //该读出的值默认为0x68
+	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队  
+}
+
+
+///////////////////////////////////
+///添加如指令命令 （无寄存器）
+///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_CMD();语句会执行队列中下一个命令
+///////////////////////////////////
+void I2C_AddCMD_Write_CMD_Bytes(u8 device_addr, u8* CMD_Write, u8 num)//参数：设备地址，命令，需要写入的命令的个数
+{
+	elemtype IIC_CMD_Temp;
+	u8 i;
+	IIC_CMD_Temp.cmdType=I2C_WRITE_CMD;
+	IIC_CMD_Temp.inDataLen=0;
+	IIC_CMD_Temp.outDataLen=num;
+	IIC_CMD_Temp.pDataIn=0;
+	for(i=0;i<num;++i)
+		IIC_CMD_Temp.DataOut[i]=(*CMD_Write)++;
+	IIC_CMD_Temp.slaveAddr=device_addr;
+	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队  
+}
+
+
+
+///////////////////////////////////
+///添加如指令命令 （无寄存器）
+///注意：此时没有开始执行命令，只是放到队列中了，IIC_Queue_Del();IIC_Start_CMD();语句会执行队列中下一个命令
+///////////////////////////////////
+void I2C_AddCMD_Write_CMD_Byte(u8 device_addr, u8 CMD_Write)//参数：设备地址，命令
+{
+	elemtype IIC_CMD_Temp;
+	IIC_CMD_Temp.cmdType=I2C_WRITE_CMD;
+	IIC_CMD_Temp.inDataLen=0;
+	IIC_CMD_Temp.outDataLen=1;
+	IIC_CMD_Temp.pDataIn=0;
+	IIC_CMD_Temp.DataOut[0]=CMD_Write;
+	IIC_CMD_Temp.slaveAddr=device_addr;
+	Queue_En(&IIC_CMD_Queue,IIC_CMD_Temp);//新的命令入队  
 }
 
 
@@ -398,6 +438,9 @@ uint32_t I2C_ER_IRQHandler(void)
 	/* If Bus error occurred ---------------------------------------------------*/
 	if((Error&I2C_ERR_BERR)!=0)
 	{
+		#ifdef DEBUG
+			printf("BERR\n");
+		#endif
 			/* Generate I2C software reset in order to release SDA and SCL lines */
 			I2C->CR1 |= I2C_CR1_SWRST; 
 			I2C->CR1 &= ~I2C_CR1_SWRST; 
@@ -405,11 +448,15 @@ uint32_t I2C_ER_IRQHandler(void)
 			/* Call Bus Error UserCallback */
 			I2C_BERR_UserCallback();    
 		#endif /* USE_MULTIPLE_ERROR_CALLBACK */
+		
 	}
           
     /* If Arbitration Loss error occurred --------------------------------------*/
 	if((Error&I2C_ERR_ARLO)!=0)
 	{
+		#ifdef DEBUG
+			printf("ARLO\n");
+		#endif
 			/* Generate I2C software reset in order to release SDA and SCL lines */
 			I2C->CR1 |= I2C_CR1_SWRST; 
 			I2C->CR1 &= ~I2C_CR1_SWRST; 
@@ -422,7 +469,9 @@ uint32_t I2C_ER_IRQHandler(void)
     /* If Overrun error occurred -----------------------------------------------*/
 	if((Error&I2C_ERR_OVR)!=0)
 	{
-      
+		#ifdef DEBUG
+			printf("OVR\n");
+		#endif
 		  /* No I2C software reset is performed here in order to allow user to get back
 		  the last data received correctly */
 		  
@@ -435,6 +484,9 @@ uint32_t I2C_ER_IRQHandler(void)
     /* If Acknowledge Failure error occurred -----------------------------------*/
 	if((Error&I2C_ERR_AF)!=0)
     {
+		#ifdef DEBUG
+			printf("AF\n");
+		#endif
 		  /* No I2C software reset is performed here in order to allow user to recover 
 		  communication */
 		  
@@ -449,6 +501,8 @@ uint32_t I2C_ER_IRQHandler(void)
 		/* Call Error UserCallback */  
 		I2C_ERR_UserCallback(Error);
 	#endif /* USE_SINGLE_ERROR_CALLBACK */
+	
+	IIC_CMD_Queue.State = STATE_READY;//状态设置为正常
 	return 0;
 }
 //void I2C_DMA_TX_IRQHandler()

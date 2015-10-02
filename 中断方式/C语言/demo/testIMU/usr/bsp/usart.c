@@ -36,7 +36,8 @@ void Usart_Configuration(void)			//配置Usart1 Tx->PA9 Rx->PA10
 	 USART_ClockInit(USART1, &USART_ClockInitStructure);
 	 USART_Init(USART1, &USART_InitStructure);	//初始化结构体
 	 USART_Cmd(USART1, ENABLE); //使能串口1
-	 USART_ClearFlag(USART1,USART_FLAG_TC);//清除发送完成标志，不然有时可能会有第一个字符发送不出去的情况
+//	 USART_ClearFlag(USART1,USART_FLAG_TC);//清除发送完成标志，不然有时可能会有第一个字符发送不出去的情况
+	 USART_GetFlagStatus(USART1, USART_FLAG_TC);//清除发送完成标志，不然有时可能会有第一个字符发送不出去的情况
 }
 void Usart_NVIC_Configuration(void)
 {
