@@ -1,5 +1,5 @@
 Dependencies for Project 'testIMU', Target 'IMUtest': (DO NOT MODIFY !)
-F (..\usr\sys\main.c)(0x560E43C3)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\main.o --omf_browse ..\out\main.crf --depend ..\out\main.d)
+F (..\usr\sys\main.c)(0x560F9B8A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\main.o --omf_browse ..\out\main.crf --depend ..\out\main.d)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
 I (.\RTE\RTE_Components.h)(0x56015B78)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include\core_cm3.h)(0x538426C6)
@@ -18,9 +18,10 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc
 I (..\usr\bsp\delay.h)(0x553BA29E)
 I (..\usr\bsp\usart.h)(0x55B4F746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53463A44)
-I (..\usr\bsp\iic.h)(0x560D2ECA)
+I (..\usr\bsp\iic.h)(0x560E454A)
 I (..\usr\app\queue.h)(0x560BA4DE)
-I (..\usr\bsp\IMU.h)(0x560E0E5E)
+I (..\usr\bsp\IMU.h)(0x560F9B74)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x53463A44)
 F (..\usr\app\queue.c)(0x5607AD6C)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\queue.o --omf_browse ..\out\queue.crf --depend ..\out\queue.d)
 I (..\usr\app\queue.h)(0x560BA4DE)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -38,8 +39,8 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm3
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc.h)(0x53B66212)
-F (..\usr\bsp\IMU.c)(0x560E43DD)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\imu.o --omf_browse ..\out\imu.crf --depend ..\out\imu.d)
-I (..\usr\bsp\IMU.h)(0x560E0E5E)
+F (..\usr\bsp\IMU.c)(0x560F9B77)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\imu.o --omf_browse ..\out\imu.crf --depend ..\out\imu.d)
+I (..\usr\bsp\IMU.h)(0x560F9B74)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
 I (.\RTE\RTE_Components.h)(0x56015B78)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include\core_cm3.h)(0x538426C6)
@@ -55,11 +56,12 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm3
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc.h)(0x53B66212)
-I (..\usr\bsp\iic.h)(0x560D2ECA)
+I (..\usr\bsp\iic.h)(0x560E454A)
 I (..\usr\app\queue.h)(0x560BA4DE)
 I (..\usr\bsp\delay.h)(0x553BA29E)
 I (..\usr\bsp\usart.h)(0x55B4F746)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53463A44)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x53463A44)
 F (..\usr\bsp\delay.c)(0x55DC27BE)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\delay.o --omf_browse ..\out\delay.crf --depend ..\out\delay.d)
 I (..\usr\bsp\delay.h)(0x553BA29E)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -95,8 +97,8 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm3
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc.h)(0x53B66212)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53463A44)
-F (..\usr\bsp\iic.c)(0x560E0E0B)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\iic.o --omf_browse ..\out\iic.crf --depend ..\out\iic.d)
-I (..\usr\bsp\iic.h)(0x560D2ECA)
+F (..\usr\bsp\iic.c)(0x560F79CE)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\iic.o --omf_browse ..\out\iic.crf --depend ..\out\iic.d)
+I (..\usr\bsp\iic.h)(0x560E454A)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
 I (.\RTE\RTE_Components.h)(0x56015B78)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include\core_cm3.h)(0x538426C6)
@@ -113,8 +115,6 @@ I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm3
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc.h)(0x53B66212)
 I (..\usr\app\queue.h)(0x560BA4DE)
-I (..\usr\bsp\usart.h)(0x55B4F746)
-I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53463A44)
 F (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\src\misc.c)(0x53B66212)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\usr\app -I..\usr\bsp -I..\usr\sys -I.\RTE\Device\STM32F103ZE -I.\RTE -I..\usr\bsp\STM32_CPAL_Driver\inc -I..\usr\bsp\STM32_CPAL_Driver\src -I..\usr\bsp\STM32_CPAL_Driver\devices\stm32f10x-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE-I F:\mine\Data\Embedded\flyer\惯导\stm32读取\testIMU\project\RTE\Device\STM32F103ZE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc-D_RTE_ -DSTM32F10X_HD -DUSE_STDPEREPH_DRIVER -DSTM32F10X_HD-o ..\out\misc.o --omf_browse ..\out\misc.crf --depend ..\out\misc.d)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\StdPeriph_Driver\inc\misc.h)(0x53B66212)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)

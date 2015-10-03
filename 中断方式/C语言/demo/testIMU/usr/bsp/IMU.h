@@ -1,3 +1,24 @@
+/**
+*
+*
+*
+*
+*
+* @breif 
+*       
+*
+*
+*
+*
+*
+*
+*
+*
+*
+**/
+
+
+
 #ifndef __IMU_H
 #define	__IMU_H
 
@@ -10,6 +31,7 @@ extern "C" {
 #include "iic.h"
 #include "delay.h"
 #include "usart.h"
+#include "math.h"
 /**************************************************************************************************************************************************/
 /////////////////////////////////////////////////////////////////////
 ///IMU Configuration 
@@ -75,20 +97,20 @@ extern "C" {
 
 
 //---------------HMC5883L Register Address ---------------------------
-#define HMC5883_ADD     			0x1E  // w+Address       HMC IIC写入时的地址字节数据   读：0x9E      7-bit 地址:  0x1E
-#define Config_RA      			0x00 
-#define Config_RB      			0x01  //配置寄存器A&B  R/W
-#define Mode_Register  			0x02  //模式寄存器     R/W
-#define COMPASS_XOUT_M 			0x03
-#define COMPASS_XOUT_L 			0x04
-#define COMPASS_YOUT_M 			0x05
-#define COMPASS_YOUT_L 			0x06
-#define COMPASS_ZOUT_M 			0x07
-#define COMPASS_ZOUT_L 			0x08
-#define Status_Register     0x09   //状态寄存器
-#define Identification_RA   0x10   //识别寄存器
-#define Identification_RB   0x11
-#define Identification_RC   0x12
+#define HMC5883_ADDRESS     			0x3C  //       HMC     7-bit 地址:  0x1E    ADRESS+WRITE->0X3C  ADRESS+READ->0X3D
+#define HMC5883_Config_RA      			0x00  //Configuration Register A   R/W
+#define HMC5883_Config_RB      			0x01  //配置寄存器B                 R/W
+#define HMC5883_Mode  			0x02  //模式寄存器                          R/W
+#define HMC5883_XOUT_M 			0x03  //Data Output X MSB Register   Only Read
+#define HMC5883_XOUT_L 			0x04  //Data Output X LSB Register   Only Read
+#define HMC5883_YOUT_M 			0x05  //Data Output Y MSB Register   Only Read
+#define HMC5883_YOUT_L 			0x06  //Data Output Y LSB Register   Only Read
+#define HMC5883_ZOUT_M 			0x07  //Data Output Z MSB Register   Only Read
+#define HMC5883_ZOUT_L 			0x08  //Data Output Z LSB Register   Only Read
+#define HMC5883_Status             0x09   //状态寄存器                Only Read
+#define HMC5883_Identification_A   0x0A   //识别寄存器                Only Read
+#define HMC5883_Identification_B   0x0B   //                         Only Read
+#define HMC5883_Identification_C   0x0C   //                         Only Read
 
 #define MagnetcDeclination  1.0 //重庆
 #define CalThreshold        0
@@ -128,7 +150,31 @@ extern "C" {
 
 
 
-
+/////////////////////////////////////
+///定义变量保存气压计的值
+////////////////////////////////////
+typedef struct
+{
+	u8 C1_H;
+	u8 C1_L;
+	u8 C2_H;
+	u8 C2_L;
+	u8 C3_H;
+	u8 C3_L;
+	u8 C4_H;
+	u8 C4_L;
+	u8 C5_H;
+	u8 C5_L;
+	u8 C6_H;
+	u8 C6_L;
+	u8 D1_2;//气压值原始数据最高位
+	u8 D1_1;//气压值原始数据
+	u8 D1_0;//气压值原始数据最低位
+	u8 D2_2;//温度值原始数据最高位
+	u8 D2_1;//温度值原始数据
+	u8 D2_0;//温度值原始数据最低位
+	int32_t Pressure;//经过计算后的气压值
+}MS561101BA_Value_Typedef;
 
 
 //typedef union
@@ -165,13 +211,8 @@ typedef struct
 	u8 mag_ZH;			//地磁计 z轴 高字节
 	u8 mag_ZL;			//地磁计 z轴 低字节	
 	//气压
-	u8 baroH;		
-	u8 baroM;
-	u8 baroL;	
-	u8 baro_TH;
-	u8 baro_TM;
-	u8 baro_TL;
-	u16 powerVoltage;
+	MS561101BA_Value_Typedef MS561101BA_Value;
+//	u16 powerVoltage;
 //	u8 sum;
 }IMUData;
 
@@ -186,7 +227,11 @@ typedef struct
 ///////////////////////////
 ///IMU初始化，初始化之前需要等待一段时间，等IMU上电启动。
 ///////////////////////////
-void IMU_Init(void);
+void IMU_Init(IMUData* IMU);
+
+
+
+
 
 /*****************************************************************************************************************************/
 									///////////////////////////////////////
@@ -215,6 +260,28 @@ void IMU_Add_Write_Register(u8 device_addr,u8 register_addr, u8* data_write, u8 
 
 
 
+
+
+
+/*****************************************************************************************************************************/
+									///////////////////////////
+									///磁力计相关
+									///////////////////////////
+/*****************************************************************************************************************************/
+
+////////////////////////////////
+///gain the tree aixs compass data
+////////////////////////////////
+void IMU_Add_Read_Compass(IMUData* IMU);
+
+///////////////////////////////////
+///Calculate the Heading of Compass 
+///@return Heading Defrees
+//////////////////////////////////
+double calculateHeading(IMUData* IMU);
+
+
+
 /*****************************************************************************************************************************/
 									///////////////////////////
 									///气压计相关
@@ -225,34 +292,7 @@ void IMU_Add_Write_Register(u8 device_addr,u8 register_addr, u8* data_write, u8 
 ///*********************注意：读取气压计时，IIC速度最好不要设置400k，有时会跟不上（经测试，几率很大），设置小于400k的比较好********************
 //****************************//
 
-/////////////////////////////////////
-///定义变量保存气压计的出厂校准值
-////////////////////////////////////
-typedef struct
-{
-	u8 C1_H;
-	u8 C1_L;
-	u8 C2_H;
-	u8 C2_L;
-	u8 C3_H;
-	u8 C3_L;
-	u8 C4_H;
-	u8 C4_L;
-	u8 C5_H;
-	u8 C5_L;
-	u8 C6_H;
-	u8 C6_L;
-	u8 D1_2;//气压值原始数据最高位
-	u8 D1_1;//气压值原始数据
-	u8 D1_0;//气压值原始数据最低位
-	u8 D2_2;//温度值原始数据最高位
-	u8 D2_1;//温度值原始数据
-	u8 D2_0;//温度值原始数据最低位
-	int32_t Pressure;//经过计算后的气压值
-}MS561101BA_Value_Typedef;
 
-//定义变量来保存气压计出厂校验值
-extern MS561101BA_Value_Typedef MS561101BA_Value;
 
 
 
@@ -268,7 +308,7 @@ void IMU_Add_MS561101BA_Reset(void);
 ///获取气压计出厂校准值
 ///上电复位后应该获取
 ////////////////////////
-void IMU_Add_MS561101BA_ReadPROM(void);
+void IMU_Add_MS561101BA_ReadPROM(IMUData* );
 
 
 
@@ -294,7 +334,7 @@ void IMU_Add_MS561101BA_DoConversion_Pressure(u8 OSR);
 ///获取气压计的温度值
 ///@pre 已经启动转换并且转换完毕（距离开始转换的时间大于转换需要的时间） 
 ////////////////////////////////////
-void IMU_Add_MS561101BA_Receive_Temp(void);
+void IMU_Add_MS561101BA_Receive_Temp(IMUData* );
 
 
 
@@ -304,7 +344,7 @@ void IMU_Add_MS561101BA_Receive_Temp(void);
 ///获取气压计的气压值
 ///@pre 已经启动转换并且转换完毕（距离开始转换的时间大于转换需要的时间） 
 ////////////////////////////////////
-void IMU_Add_MS561101BA_Receive_Pressure(void);
+void IMU_Add_MS561101BA_Receive_Pressure(IMUData* );
 
 
 
@@ -314,7 +354,7 @@ void IMU_Add_MS561101BA_Receive_Pressure(void);
 ///获取气压计的温度值
 ///@pre 温度转换、温度原始值获取完毕
 //////////////////////////////////
-u32 IMU_Add_MS561101BA_Get_Temperature(void);
+u32 IMU_Add_MS561101BA_Get_Temperature(IMUData* );
 
 
 
@@ -323,7 +363,7 @@ u32 IMU_Add_MS561101BA_Get_Temperature(void);
 ///获取气压计的气压值
 ///@pre 温度转换、温度原始值获取完毕 并且 气压转换、气压原始值获取完毕
 //////////////////////////////////
-int32_t IMU_Add_MS561101BA_Get_Pressure(void);
+int32_t IMU_Add_MS561101BA_Get_Pressure(IMUData* );
 
 
 
