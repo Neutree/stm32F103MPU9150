@@ -31,7 +31,6 @@
 * @attention 
 */
 
-
 #ifndef __IIC_H
 #define __IIC_H
 
@@ -46,6 +45,7 @@ extern "C" {
 #include "stm32f10x_i2c.h"
 #include "queue.h"
 
+
 	
 /***********************************************************************************************************************************************************/
 ////////////////////////////////////																														
@@ -57,20 +57,22 @@ extern "C" {
 					
 //				#define USE_I2C2                          //定义使用I2C2	使用I2C2则取消注释并把USE_I2C1注释掉   若没有注释USE_I2C1 则默认使用I2C1
 					
-	
+				#define I2C_SPEED   200000                //I2C speed  Max:400000    
+				
+				
 				#define I2C_IT_EVT_SUBPRIO              0   /* I2C EVT SUB-PRIORITY */ 
 				#define I2C_IT_EVT_PREPRIO              2   /* I2C EVT PREEMPTION PRIORITY */ 
 				#define I2C_IT_ERR_SUBPRIO              0   /* I2C ERR SUB-PRIORITY */
 				#define I2C_IT_ERR_PREPRIO              0   /* I2C ERR PREEMPTION PRIORITY */
-//				#define I2C_IT_DMATX_SUBPRIO            0   /* I2C DMA TX SUB-PRIORITY */
-//				#define I2C_IT_DMATX_PREPRIO            1   /* I2C DMA TX PREEMPTION PRIORITY */
-//				#define I2C_IT_DMARX_SUBPRIO            0   /* I2C DMA RX SUB-PRIORITY */
-//				#define I2C_IT_DMARX_PREPRIO            1   /* I2C DMA RX PREEMPTION PRIORITY */
+				#define I2C_IT_DMATX_SUBPRIO            0   /* I2C DMA TX SUB-PRIORITY */
+				#define I2C_IT_DMATX_PREPRIO            1   /* I2C DMA TX PREEMPTION PRIORITY */
+				#define I2C_IT_DMARX_SUBPRIO            0   /* I2C DMA RX SUB-PRIORITY */
+				#define I2C_IT_DMARX_PREPRIO            1   /* I2C DMA RX PREEMPTION PRIORITY */
 
 //              #define DEBUG   //print debug info
 
 
-				#define USE_SINGLE_ERROR_CALLBACK
+				#define USE_ERROR_CALLBACK
 
 /***********************************************************************************************************************************************************/
 
@@ -82,7 +84,8 @@ extern "C" {
 ///////////////////////////////////
 
 
-#ifdef USE_I2C1
+
+#ifdef USE_I2C1            //I2C1
 
 	#define I2C        I2C1
 	#ifdef I2C1_REMAP //使用端口重映射
@@ -99,7 +102,24 @@ extern "C" {
 	#define I2C_EV_IRQHandler          I2C1_EV_IRQHandler
 	#define I2C_ER_IRQHandler          I2C1_ER_IRQHandler
 	
-#else
+	#define I2C_DMA_CLK               I2C1_DMA_CLK
+	#define I2C_DMA_TX_Channel         I2C1_DMA_TX_Channel
+	#define I2C_DMA_RX_Channel         I2C1_DMA_RX_Channel
+	#define I2C_DMA_TX_TC_FLAG        DMA1_FLAG_TC6
+	#define I2C_DMA_TX_HT_FLAG        DMA1_FLAG_HT6
+	#define I2C_DMA_TX_TE_FLAG        DMA1_FLAG_TE6
+	  
+	#define I2C_DMA_RX_TC_FLAG        DMA1_FLAG_TC7
+	#define I2C_DMA_RX_HT_FLAG        DMA1_FLAG_HT7
+	#define I2C_DMA_RX_TE_FLAG        DMA1_FLAG_TE7
+	
+	#define I2C_DMA_TX_IRQn            DMA1_Channel6_IRQn
+	#define I2C_DMA_RX_IRQn            DMA1_Channel7_IRQn
+	
+	#define I2C_DMA_TX_IRQHandler      DMA1_Channel6_IRQHandler
+	#define I2C_DMA_RX_IRQHandler      DMA1_Channel7_IRQHandler
+
+#else             //I2C2
 	
 	#define I2C        I2C2
 	#define I2C_SCL_GPIO_PIN   		  GPIO_Pin_10
@@ -112,6 +132,23 @@ extern "C" {
 	#define I2C_EV_IRQHandler          I2C2_EV_IRQHandler
 	#define I2C_ER_IRQHandler          I2C2_ER_IRQHandler
 	
+	#define I2C_DMA_CLK                I2C2_DMA_CLK
+	#define I2C_DMA_TX_Channel         I2C2_DMA_TX_Channel
+	#define I2C_DMA_RX_Channel         I2C2_DMA_RX_Channel
+	#define I2C_DMA_TX_TC_FLAG         DMA1_FLAG_TC4
+	#define I2C_DMA_TX_HT_FLAG         DMA1_FLAG_HT4
+	#define I2C_DMA_TX_TE_FLAG         DMA1_FLAG_TE4
+	  
+	#define I2C_DMA_RX_TC_FLAG         DMA1_FLAG_TC5
+	#define I2C_DMA_RX_HT_FLAG         DMA1_FLAG_HT5
+	#define I2C_DMA_RX_TE_FLAG         DMA1_FLAG_TE5
+	
+	#define I2C_DMA_TX_IRQn            DMA1_Channel4_IRQn
+	#define I2C_DMA_RX_IRQn            DMA1_Channel5_IRQn
+	
+	#define I2C_DMA_TX_IRQHandler      DMA1_Channel4_IRQHandler
+	#define I2C_DMA_RX_IRQHandler      DMA1_Channel5_IRQHandler
+	
 #endif
 
 
@@ -122,35 +159,17 @@ extern "C" {
 #define I2C_SDA_GPIO_CLK          RCC_APB2Periph_GPIOB 
 
 
-//#define I2C_DMA                   DMA1
-//#define I2C1_DMA_CLK               RCC_AHBPeriph_DMA1
-//#define I2C_DMA_CLK               I2C1_DMA_CLK 
-//#define I2C_DMA_TX_TC_FLAG        DMA1_FLAG_TC6
-//#define I2C_DMA_TX_HT_FLAG        DMA1_FLAG_HT6
-//#define I2C_DMA_TX_TE_FLAG        DMA1_FLAG_TE6
-//  
-//#define I2C_DMA_RX_TC_FLAG        DMA1_FLAG_TC7
-//#define I2C_DMA_RX_HT_FLAG        DMA1_FLAG_HT7
-//#define I2C_DMA_RX_TE_FLAG        DMA1_FLAG_TE7
-///*----------- I2C1 Device -----------*/
-//#define I2C1_DMA_TX_Channel        DMA1_Channel6
-//#define I2C1_DMA_RX_Channel        DMA1_Channel7
-//  
-///*----------- I2C2 Device -----------*/
-//#define I2C2_DMA_TX_Channel        DMA1_Channel4
-//#define I2C2_DMA_RX_Channel        DMA1_Channel5
+#define I2C_DMA                   DMA1
+#define I2C1_DMA_CLK               RCC_AHBPeriph_DMA1
+ 
 
-//#define I2C_DMA_TX_Channel         I2C1_DMA_TX_Channel
-//#define I2C_DMA_RX_Channel         I2C1_DMA_RX_Channel
-
-
-//#define I2C_DMA_TX_IRQn            DMA1_Channel6_IRQn
-//#define I2C_DMA_RX_IRQn            DMA1_Channel7_IRQn
-
-
-//#define I2C_DMA_TX_IRQHandler      DMA1_Channel6_IRQHandler
-//#define I2C_DMA_RX_IRQHandler      DMA1_Channel7_IRQHandler
-
+/*----------- I2C1 Device -----------*/
+#define I2C1_DMA_TX_Channel        DMA1_Channel6
+#define I2C1_DMA_RX_Channel        DMA1_Channel7
+  
+/*----------- I2C2 Device -----------*/
+#define I2C2_DMA_TX_Channel        DMA1_Channel4
+#define I2C2_DMA_RX_Channel        DMA1_Channel5
 
 
 
@@ -241,7 +260,7 @@ typedef enum
 
 void I2C_Init_Config(void);
 ///////////////////////////////
-///新的命令出队，从IIC_CMD_Queue到IIC_CMD_Current中
+///新的命令出队,从IIC_CMD_Queue到IIC_CMD_Current中
 //////////////////////////////
 void IIC_Queue_Del(void);
 //////////////////////////////
@@ -340,6 +359,8 @@ void I2C_BERR_UserCallback(void);
 
 /* Call Error UserCallback */  
 void I2C_ERR_UserCallback(u16 Error);
+
+
 #ifdef __cplusplus
 }
 #endif

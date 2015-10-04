@@ -110,7 +110,6 @@ void Queue_En(Queue_Mem_Struct_p sq,elemtype data);
 ///////////////////////
 void Queue_ERROverflowCallback(Queue_Mem_Struct_p sq,elemtype data);
 
-
 #ifdef __cplusplus
 }
 #endif

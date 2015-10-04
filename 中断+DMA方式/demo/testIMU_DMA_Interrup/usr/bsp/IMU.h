@@ -1,21 +1,17 @@
 /**
+* @file 
+* @author Chenzhangdi
+* @version v1.0
+* @date 2015-08-28
+* @pre First initialize the SystemClock eg:72M 
+* @brief  
 *
-*
-*
-*
-*
-* @breif 
-*       
-*
-*
-*
-*
-*
-*
-*
-*
-*
-**/
+* @bug
+* @warning   
+* @copyright 
+* @attention 
+*/
+
 
 
 
@@ -206,10 +202,10 @@ typedef struct
 	//地磁
 	u8 mag_XH;			//地磁计 x轴 高字节
 	u8 mag_XL;			//地磁计 x轴 低字节
-	u8 mag_YH;			//地磁计 y轴 高字节
-	u8 mag_YL;			//地磁计 y轴 低字节
-	u8 mag_ZH;			//地磁计 z轴 高字节
-	u8 mag_ZL;			//地磁计 z轴 低字节	
+	u8 mag_ZH;			//地磁计 y轴 高字节
+	u8 mag_ZL;			//地磁计 y轴 低字节
+	u8 mag_YH;			//地磁计 z轴 高字节
+	u8 mag_YL;			//地磁计 z轴 低字节	
 	//气压
 	MS561101BA_Value_Typedef MS561101BA_Value;
 //	u16 powerVoltage;
@@ -276,7 +272,7 @@ void IMU_Add_Read_Compass(IMUData* IMU);
 
 ///////////////////////////////////
 ///Calculate the Heading of Compass 
-///@retval Heading Defrees
+///@return Heading Defrees
 //////////////////////////////////
 double calculateHeading(IMUData* IMU);
 

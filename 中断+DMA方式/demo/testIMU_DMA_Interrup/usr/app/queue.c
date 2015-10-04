@@ -22,9 +22,10 @@
 
 elemtype Queue_Init_Value;
 
-//////////////////////
+
+/////////////////////////
 ///初始化队列
-/////////////////////
+/////////////////////////
 void Queue_Init(Queue_Mem_Struct_p sq)
 {
 	u16 i;
@@ -36,18 +37,18 @@ void Queue_Init(Queue_Mem_Struct_p sq)
 }
 
 
-/////////////////////////
-///求队列长度
 ////////////////////////
+///求队列长度
+///////////////////////
 u16 Queue_GetSize(Queue_Mem_Struct_p sq)
 {
 	return (MAX_QUEUE_LEN+sq->MemRear-sq->MemFront)%MAX_QUEUE_LEN;
 }
 
 
-///////////////////////
+////////////////////////
 ///读队头元素
-///////////////////////
+////////////////////////
 elemtype Queue_Head(Queue_Mem_Struct_p sq)
 {
 	if(sq->MemFront==sq->MemRear)
@@ -58,9 +59,9 @@ elemtype Queue_Head(Queue_Mem_Struct_p sq)
 
 
 
-////////////////////////
+//////////////////////////
 ///出队
-////////////////////////
+//////////////////////////
 elemtype Queue_Del(Queue_Mem_Struct_p sq)
 {
 	if(sq->MemFront==sq->MemRear)
@@ -76,9 +77,10 @@ elemtype Queue_Del(Queue_Mem_Struct_p sq)
 }
 
 
-///////////////////////////////////
-///入队
-///////////////////////////////////
+
+///////////////////////////
+//入队
+///////////////////////////
 void Queue_En(Queue_Mem_Struct_p sq,elemtype data)
 {
 	if((sq->MemRear+1)%MAX_QUEUE_LEN==sq->MemFront)//队满，溢出
@@ -93,10 +95,9 @@ void Queue_En(Queue_Mem_Struct_p sq,elemtype data)
 }
 
 
-
-//////////////////////////////
+/////////////////////////
 ///入队溢出错误
-//////////////////////////////
+/////////////////////////
 void Queue_ERROverflowCallback(Queue_Mem_Struct_p sq,elemtype data)
 {
 	Queue_Del(sq);//出队，舍弃前面的数据
